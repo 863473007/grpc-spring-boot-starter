@@ -18,11 +18,7 @@ buildscript {
         nettyTCNativeVersion = '2.0.17.Final'
 
         springBootVersion = '2.0.6.RELEASE'
-        springSecurityVersion = '5.0.9.RELEASE'
         springCloudVersion = 'Finchley.SR2'
-        springCloudSleuthVersion = '2.0.2.RELEASE'
-        springCloudConsulVersion = '2.0.1.RELEASE'
-        springCloudEurekaVersion = '2.0.2.RELEASE'
         braveInstrumentationGrpc = '5.5.0'
         jUnitVersion = '5.3.1'
 
@@ -143,6 +139,18 @@ allprojects {
             jcenter()
             maven { url 'http://repo.spring.io/plugins-release' }
             maven { url "https://plugins.gradle.org/m2/" }
+        }
+
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+                mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+            }
+        }
+
+        ext {
+            springSecurityVersion = dependencyManagement.importedProperties['spring-security.version']
+            springFrameworkVersion = dependencyManagement.importedProperties['spring-framework.version']
         }
     }
 }
